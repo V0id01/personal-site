@@ -1,0 +1,21 @@
+<script src="/medium-zoom.min.js"></script>
+
+<script>
+const images = Array.from(document.querySelectorAll(".page-content img"));
+images.forEach(img => {
+  mediumZoom(img, {
+    margin: 0, /* The space outside the zoomed image */
+    scrollOffset: 40, /* The number of pixels to scroll to close the zoom */
+    container: null, /* The viewport to render the zoom in */
+    template: null, /* The template element to display on zoom */
+    background: 'rgba(0, 0, 0, 0.4)' /* The overlay color, including opacity */
+  });
+});
+</script>
+
+<style> 
+img[src$='#center']{
+    display: block;
+    margin: 0.7rem auto;
+}
+</style>

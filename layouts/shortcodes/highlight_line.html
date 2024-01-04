@@ -1,0 +1,28 @@
+{{ $lines := slice }}
+{{ $start := false }}
+{{ $end := false }}
+{{ $language := .Get 0 }}
+
+{{ range $index, $line := .Page.Content }}
+  {{ if eq $line "{{< /highlight_line >}}" }}
+    {{ $end = $index }}
+  {{ else if and (not $start) (eq $line "{{< highlight_line >}}") }}
+    {{ $start = add $index 1 }}
+  {{ else if and $start (not $end) }}
+    {{ $lines = $lines | append $line }}
+  {{ end }}
+{{ end }}
+
+{{ $highlightedLineNumbers := .Get 1 | split "-" | int }}
+{{ $highlightedLines := slice }}
+
+{{ if and (ge (len $highlightedLineNumbers) 1) (le (len $highlightedLineNumbers) 2) }}
+  {{ $highlightedLines = slice $highlightedLineNumbers | int }}
+  {{ range $index, $line := $lines }}
+    {{ if in $highlightedLines $index }}
+      <span class="highlight-line">{{ $line }}</span>
+    {{ else }}
+      {{ $line }}
+    {{ end }}
+  {{ end }}
+{{ end }}
